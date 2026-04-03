@@ -15,7 +15,7 @@ interface ApiBaseRequestInit extends RequestInit {
 
 const fetchApi = async (url: string, arg: ApiBaseRequestInit) => {
     let timeout = false;
-    let timeoutId = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
         timeout = true;
         arg.abortController.abort();
     }, arg.timeout);

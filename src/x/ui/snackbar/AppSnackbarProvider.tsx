@@ -14,6 +14,7 @@ interface AppAlertInterface {
 
 interface AppAlertProps extends CustomContentProps {
     data: AppAlertInterface,
+    closeSnackbar: (id?: string | number) => void,
 }
 
 interface AppSnackbarComponentProps {
@@ -67,9 +68,7 @@ const AppSnackbarProvider = ({children, snackbarState, dispatch}: AppSnackbarPro
 }
 
 const AppAlert = forwardRef<HTMLDivElement, AppAlertProps>((props, ref) => {
-    const {id,} = props
-
-    const {closeSnackbar} = useSnackbar();
+    const {id, closeSnackbar} = props
     const handleDismiss = useCallback(() => {
         closeSnackbar(id);
     }, [id, closeSnackbar]);
