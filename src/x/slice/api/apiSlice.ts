@@ -1,7 +1,6 @@
 import {isPlainObject, PayloadAction} from "@reduxjs/toolkit";
 import {BaseQueryFn, createApi} from "@reduxjs/toolkit/query/react";
-import {responseCodeEnum} from "../../common/responseCodeEnum";
-import {responseCodeMap} from "../../common/responseCodeMap";
+import {ResponseCodeEnum} from "../../common/ResponseCodeEnum";
 import {type ResponseData} from "../../payload/response/data/ResponseData";
 import {type BrokenHttp} from "../../payload/response/data/SimpleData";
 import {type XResponse} from "../../payload/response/XResponse";
@@ -73,7 +72,7 @@ const brokenResponse = (status: number, message: string): XResponse<BrokenHttp> 
             message,
             date: new Date().getTime(),
         },
-        code: responseCodeMap[responseCodeEnum.BROKEN_HTTP]
+        code: ResponseCodeEnum.BROKEN_HTTP
     }
 }
 

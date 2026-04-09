@@ -23,6 +23,6 @@ const appSnackbarSlice = createSlice({
 });
 
 export const {addSnackbar, removeSnackbar} = appSnackbarSlice.actions;
-export const appSnackbarSliceReducer = appSnackbarSlice.reducer;
+export const AppSnackbarSliceReducer = appSnackbarSlice.reducer;
 export default appSnackbarSlice.reducer;
 export type { AppSnackbarState };

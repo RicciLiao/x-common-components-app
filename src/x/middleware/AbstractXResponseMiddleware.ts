@@ -1,24 +1,10 @@
-import {Dispatch, isFulfilled, isRejectedWithValue, Middleware, MiddlewareAPI, ThunkDispatch} from "@reduxjs/toolkit";
+import {Dispatch, Middleware, MiddlewareAPI, ThunkDispatch} from "@reduxjs/toolkit";
 import {Action} from "redux";
-import {responseCodeEnum} from "../common/responseCodeEnum";
-import {type ResponseData} from "../payload/response/data/ResponseData";
-import {type BrokenHttp} from "../payload/response/data/SimpleData";
-import {type XResponse} from "../payload/response/XResponse";
 import {type ApiPayloadAction, apiSlice} from "../slice/api/apiSlice";
-
-const isHttpErrorPayload = (payload: XResponse<ResponseData>): payload is XResponse<BrokenHttp> => {
-
-    return payload && payload.code.id === responseCodeEnum.BROKEN_HTTP;
-}
 
 const isApiSliceAction = (action: any): action is ApiPayloadAction => {
 
     return action.type.startsWith(`${apiSlice.reducerPath}/`) && isApiSliceActionWithMeta(action);
-}
-
-const isApiSliceActionCompletedWithError = (action: ApiPayloadAction): boolean => {
-
-    return (isFulfilled(action) || isRejectedWithValue(action)) && action.payload && action.payload.code.id !== responseCodeEnum.SUCCESS;
 }
 
 const isApiSliceActionWithMeta = (action: ApiPayloadAction): boolean => {
@@ -58,7 +44,5 @@ abstract class AbstractXResponseMiddleware<
 
 export {
     AbstractXResponseMiddleware,
-    isApiSliceActionCompletedWithError,
-    isHttpErrorPayload,
     type ApiPayloadAction,
 }

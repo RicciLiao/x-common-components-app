@@ -1,7 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
 import {Alert, AlertColor, AlertTitle, IconButton, Typography} from "@mui/material";
 import {format} from "date-fns";
-import {CustomContentProps, SnackbarContent, SnackbarProvider, useSnackbar} from "notistack";
+import {closeSnackbar, CustomContentProps, SnackbarContent, SnackbarProvider, useSnackbar} from "notistack";
 import {forwardRef, type ReactNode, useCallback, useEffect} from "react";
 import {removeSnackbar} from "../../slice/appSnackbarSlice";
 import {AppSnackbar} from "./AppSnackbar";
@@ -14,7 +14,6 @@ interface AppAlertInterface {
 
 interface AppAlertProps extends CustomContentProps {
     data: AppAlertInterface,
-    closeSnackbar: (id?: string | number) => void,
 }
 
 interface AppSnackbarComponentProps {
@@ -68,10 +67,10 @@ const AppSnackbarProvider = ({children, snackbarState, dispatch}: AppSnackbarPro
 }
 
 const AppAlert = forwardRef<HTMLDivElement, AppAlertProps>((props, ref) => {
-    const {id, closeSnackbar} = props
+    const {id} = props
     const handleDismiss = useCallback(() => {
         closeSnackbar(id);
-    }, [id, closeSnackbar]);
+    }, [id]);
 
     return (
         <SnackbarContent ref={ref}>

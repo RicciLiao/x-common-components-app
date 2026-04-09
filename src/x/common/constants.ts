@@ -1,4 +1,4 @@
-const xConstants = {
+const constants = {
     HTTP_METHOD_POST: "POST",
     HTTP_METHOD_GET: "GET",
     SNACKBAR_SEVERITY_TYPE: {
@@ -9,5 +9,4 @@ const xConstants = {
     },
 } as const;
 
-export {xConstants};
-
+export {constants};

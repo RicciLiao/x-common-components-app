@@ -2,7 +2,7 @@ import {configureStore, Middleware, Reducer} from "@reduxjs/toolkit";
 import {XResponseCodeMiddleware} from "../middleware/XResponseCodeMiddleware";
 import {XResponseRTKMiddleware} from "../middleware/XResponseRTKMiddleware";
 import {apiSlice} from "../slice/api/apiSlice";
-import {appSnackbarSliceReducer} from "../slice/appSnackbarSlice";
+import {AppSnackbarSliceReducer} from "../slice/appSnackbarSlice";
 
 export interface XStoreConfig<ExtraReducers extends Record<string, Reducer> = {}> {
     /**
@@ -29,7 +29,7 @@ export function createXStore<ExtraReducers extends Record<string, Reducer> = {}>
 
     return configureStore({
         reducer: {
-            appSnackbar: appSnackbarSliceReducer,
+            appSnackbar: AppSnackbarSliceReducer,
             [apiSlice.reducerPath]: apiSlice.reducer,
             ...extraReducers,
         },

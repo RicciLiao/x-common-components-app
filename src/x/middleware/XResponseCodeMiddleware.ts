@@ -1,12 +1,14 @@
-import {Action, MiddlewareAPI, ThunkDispatch} from "@reduxjs/toolkit";
+import {Action, isFulfilled, isRejectedWithValue, MiddlewareAPI, ThunkDispatch} from "@reduxjs/toolkit";
+import {constants} from "../common/constants";
+import {ResponseCodeEnum} from "../common/ResponseCodeEnum";
 import {type XRequest} from "../payload/request/XRequest";
 import {type ResponseData} from "../payload/response/data/ResponseData";
+import type {BrokenHttp} from "../payload/response/data/SimpleData";
 import {type XResponse} from "../payload/response/XResponse";
 import {messageSlice} from "../slice/api/messageSlice";
 import {addSnackbar} from "../slice/appSnackbarSlice";
 import {AppSnackbar} from "../ui/snackbar/AppSnackbar";
-import {xConstants} from "../xConstants";
-import {AbstractXResponseMiddleware, type ApiPayloadAction, isApiSliceActionCompletedWithError, isHttpErrorPayload} from "./AbstractXResponseMiddleware";
+import {AbstractXResponseMiddleware, type ApiPayloadAction} from "./AbstractXResponseMiddleware";
 
 const replacePlaceholders = (template: string, args: string[] | undefined): string => {
     if (!args || args.length === 0) {
@@ -30,7 +32,17 @@ const getMessageArgs = (action: ApiPayloadAction): string[] | undefined => {
     return undefined;
 };
 
-export class XResponseCodeMiddleware extends AbstractXResponseMiddleware<ThunkDispatch<any, any, Action>, any> {
+const withAlert = (action: ApiPayloadAction): boolean => {
+
+    return Boolean(action.payload.code.alert) || action.payload.code.id !== (ResponseCodeEnum.SUCCESS.id + "000");
+}
+
+const isHttpErrorPayload = (payload: XResponse<ResponseData>): payload is XResponse<BrokenHttp> => {
+
+    return payload && payload.code.id === ResponseCodeEnum.BROKEN_HTTP.id;
+}
+
+export class XResponseCodeMiddleware extends AbstractXResponseMiddleware<ThunkDispatch<any, any, Action>> {
 
     private readonly projectCode: string;
 
@@ -39,15 +51,20 @@ export class XResponseCodeMiddleware extends AbstractXResponseMiddleware<ThunkDi
         this.projectCode = projectCode;
     }
 
+    support(action: any): action is ApiPayloadAction {
+
+        return super.support(action) && (isFulfilled(action) || isRejectedWithValue(action)) && Boolean(action.payload?.code);
+    }
+
     do(action: ApiPayloadAction, api: MiddlewareAPI<ThunkDispatch<any, any, Action>>): void {
-        if (isApiSliceActionCompletedWithError(action)) {
+        if (withAlert(action)) {
             let appSnackBar: AppSnackbar;
             const payload: XResponse<ResponseData> = action.payload;
             if (isHttpErrorPayload(payload)) {
                 appSnackBar = {
                     code: payload.data.status,
                     date: payload.data.date,
-                    alertType: xConstants.SNACKBAR_SEVERITY_TYPE.E,
+                    alertType: constants.SNACKBAR_SEVERITY_TYPE.E,
                     message: payload.data.message
                 };
                 api.dispatch(addSnackbar(appSnackBar));
@@ -60,7 +77,7 @@ export class XResponseCodeMiddleware extends AbstractXResponseMiddleware<ThunkDi
                 })).unwrap()
                     .then((result: any) => {
                         const messageData = result.data;
-                        const alertType = xConstants.SNACKBAR_SEVERITY_TYPE[messageData.level as keyof typeof xConstants.SNACKBAR_SEVERITY_TYPE];
+                        const alertType = constants.SNACKBAR_SEVERITY_TYPE[messageData.level as keyof typeof constants.SNACKBAR_SEVERITY_TYPE];
                         appSnackBar = {
                             code: messageData.id,
                             date: new Date().getTime(),
@@ -73,4 +90,3 @@ export class XResponseCodeMiddleware extends AbstractXResponseMiddleware<ThunkDi
         }
     }
 }
-
