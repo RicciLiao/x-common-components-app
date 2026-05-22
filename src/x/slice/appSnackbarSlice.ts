@@ -24,5 +24,4 @@ const appSnackbarSlice = createSlice({
 
 export const {addSnackbar, removeSnackbar} = appSnackbarSlice.actions;
 export const AppSnackbarSliceReducer = appSnackbarSlice.reducer;
-export default appSnackbarSlice.reducer;
-export type { AppSnackbarState };
+export type {AppSnackbarState};

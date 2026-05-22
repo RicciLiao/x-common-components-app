@@ -1,5 +1,5 @@
 import {Action, isFulfilled, isRejectedWithValue, MiddlewareAPI, ThunkDispatch} from "@reduxjs/toolkit";
-import {constants} from "../common/constants";
+import {appConstants} from "../common/appConstants";
 import {ResponseCodeEnum} from "../common/ResponseCodeEnum";
 import {type XRequest} from "../payload/request/XRequest";
 import {type ResponseData} from "../payload/response/data/ResponseData";
@@ -64,7 +64,7 @@ export class XResponseCodeMiddleware extends AbstractXResponseMiddleware<ThunkDi
                 appSnackBar = {
                     code: payload.data.status,
                     date: payload.data.date,
-                    alertType: constants.SNACKBAR_SEVERITY_TYPE.E,
+                    alertType: appConstants.SNACKBAR_SEVERITY_TYPE.E,
                     message: payload.data.message
                 };
                 api.dispatch(addSnackbar(appSnackBar));
@@ -77,7 +77,7 @@ export class XResponseCodeMiddleware extends AbstractXResponseMiddleware<ThunkDi
                 })).unwrap()
                     .then((result: any) => {
                         const messageData = result.data;
-                        const alertType = constants.SNACKBAR_SEVERITY_TYPE[messageData.level as keyof typeof constants.SNACKBAR_SEVERITY_TYPE];
+                        const alertType = appConstants.SNACKBAR_SEVERITY_TYPE[messageData.level as keyof typeof appConstants.SNACKBAR_SEVERITY_TYPE];
                         appSnackBar = {
                             code: messageData.id,
                             date: new Date().getTime(),

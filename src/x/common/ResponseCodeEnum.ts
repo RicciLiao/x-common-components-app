@@ -9,6 +9,4 @@ const ResponseCodeEnum = {
 } as const;
 
 
-/*type ResponseCodeEnum = typeof ResponseCodeEnum[keyof typeof ResponseCodeEnum];*/
-
 export {ResponseCodeEnum}

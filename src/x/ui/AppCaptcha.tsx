@@ -1,6 +1,5 @@
 import AutorenewIcon from "@mui/icons-material/Autorenew";
-import {LoadingButton} from "@mui/lab";
-import {Box, CardMedia, Checkbox, CircularProgress, Grid, IconButton, Stack, styled} from "@mui/material";
+import {Box, Button, CardMedia, Checkbox, CircularProgress, Grid, IconButton, Stack, styled} from "@mui/material";
 import React from "react";
 
 interface AppCaptchaProps {
@@ -50,7 +49,7 @@ const AppCaptcha = ({useLazyCaptchaQuery}: AppCaptchaProps) => {
         color: "rgba(0,0,0,0) !important",
         zIndex: 0
     }));
-    const MyLoadingButton = styled(LoadingButton)(() => ({
+    const MyLoadingButton = styled(Button)(() => ({
         position: "absolute",
         zIndex: 1,
         height: "100%",

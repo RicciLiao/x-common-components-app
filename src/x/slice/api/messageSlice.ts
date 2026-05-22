@@ -1,4 +1,4 @@
-import {constants} from "../../common/constants";
+import {appConstants} from "../../common/appConstants";
 import {type GetMessage} from "../../payload/GetMessage";
 import {type MessageCode} from "../../payload/MessageCode";
 import {type XResponse} from "../../payload/response/XResponse";
@@ -9,7 +9,7 @@ const messageSlice = apiSlice.injectEndpoints({
         getMessage: builder.query<XResponse<MessageCode>, GetMessage>({
             query: arg => ({
                 url: `/message/code/${arg.code}/${arg.consumer}`,
-                method: constants.HTTP_METHOD_GET
+                method: appConstants.HTTP_METHOD_GET
             }),
         }),
     })
