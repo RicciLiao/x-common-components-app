@@ -26,4 +26,6 @@ export {AppExperimentalMenu} from './x/ui/menu/AppExperimentalMenu'
 export {AppSidebar, type AppSideProps} from './x/ui/sidebar/AppSidebar'
 export {appTheme} from './x/ui/appTheme'
 export {AppThemeProvider} from './x/ui/AppThemeProvider'
+export {processingProgress, completedProgress} from './x/slice/appProgressSlice'
+
 

@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import * as React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {apiSlice} from "../../slice/api/apiSlice";
-import {custom} from "../../slice/appThemeSlice";
+import {customTheme, tacitTheme} from "../../slice/appThemeSlice";
 
 const AppExperimentalMenu = () => {
     const currentTheme = useSelector((state: any) => state.appTheme?.customTheme ?? true);
@@ -21,7 +21,11 @@ const AppExperimentalMenu = () => {
     };
 
     const changeStyle = () => {
-        dispatch(custom(!currentTheme));
+        if (currentTheme) {
+            dispatch(customTheme());
+        } else {
+            dispatch(tacitTheme())
+        }
     };
     const resetApiState = () => {
         dispatch(apiSlice.util.resetApiState());
