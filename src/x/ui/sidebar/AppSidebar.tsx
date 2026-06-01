@@ -1,7 +1,6 @@
-import {Box, Stack, styled} from "@mui/material";
+import {Box, Stack, StackProps, styled} from "@mui/material";
+import MuiStack from "@mui/material/Stack";
 import React, {useCallback, useEffect, useState} from "react";
-import {AppThemeProvider} from "../AppThemeProvider";
-import {appSidebarTheme} from "./appSidebarTheme";
 
 
 interface AppSideProps {
@@ -11,7 +10,7 @@ interface AppSideProps {
     onResize?: (width: number) => void;
 }
 
-const ResizeHandle = styled('div')(({theme}) => ({
+const ResizeHandle = styled("div")(({theme}) => ({
     height: "100%",
     width: '4px',
     cursor: 'col-resize',
@@ -24,6 +23,13 @@ const ResizeHandle = styled('div')(({theme}) => ({
         backgroundColor: theme.palette.primary.dark,
     },
     zIndex: 1,
+}));
+
+const Stack = styled((props: StackProps) => (
+    <MuiStack {...props} />
+))(() => ({
+    height: "100%",
+    borderRight: "1px solid rgb(209 217 224)"
 }));
 
 const AppSidebar = ({props, children}: { props: AppSideProps, children: React.ReactNode }) => {
@@ -70,14 +76,12 @@ const AppSidebar = ({props, children}: { props: AppSideProps, children: React.Re
 
 
     return (
-        <AppThemeProvider theme={appSidebarTheme}>
-            <Stack className="sidebar-stack" direction="row">
-                <Box width={sideWidth}>
-                    {children}
-                </Box>
-                <ResizeHandle onMouseDown={handleMouseDown}/>
-            </Stack>
-        </AppThemeProvider>
+        <Stack direction="row">
+            <Box width={sideWidth}>
+                {children}
+            </Box>
+            <ResizeHandle onMouseDown={handleMouseDown}/>
+        </Stack>
     )
 };
 

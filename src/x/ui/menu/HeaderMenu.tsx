@@ -1,4 +1,4 @@
-import {Backdrop, Box, Button, Popper} from "@mui/material";
+import {Backdrop, Box, Button, Popper, Theme} from "@mui/material";
 import React, {Dispatch, RefObject, SetStateAction} from "react";
 import {useNavigate} from "react-router-dom";
 import {AppThemeProvider} from "../AppThemeProvider";
@@ -111,6 +111,7 @@ const NestedMenu = ({menu, parentPath, closeAllMenus}: {
 
     const isOpen
         = activeMenuPath.join("/").startsWith(currentPath.join("/")) && activeMenuPath.length >= currentPath.length;
+    const label = menu.label + (menu.subMenuList && " ▶" || "");
 
     return (
         <Box>
@@ -122,7 +123,7 @@ const NestedMenu = ({menu, parentPath, closeAllMenus}: {
                 color={"secondary"}
                 sx={isOpen ? {backgroundColor: "rgb(246 248 250)"} : {}}
             >
-                {menu.label + (menu.subMenuList && " ▶" || "")}
+                {label}
             </Button>
 
             {menu.subMenuList && isOpen && (
@@ -231,15 +232,16 @@ const HeaderMenus = ({menus}: { menus: AppMenuItem[] }) => {
 
 interface AppMenuProps {
     menus: AppMenuItem[];
+    theme?: Theme;
 }
 
-const HeaderMenu = ({menus}: AppMenuProps) => {
+const HeaderMenu = (props: AppMenuProps) => {
 
     return (
-        <AppThemeProvider theme={appMenuTheme}>
+        <AppThemeProvider theme={props.theme || appMenuTheme}>
             <MenuProvider>
                 <Box>
-                    <HeaderMenus menus={menus}/>
+                    <HeaderMenus menus={props.menus}/>
                 </Box>
             </MenuProvider>
         </AppThemeProvider>

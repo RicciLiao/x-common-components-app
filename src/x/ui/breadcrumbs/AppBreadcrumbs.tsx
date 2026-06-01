@@ -1,36 +1,37 @@
-import {Breadcrumbs, Link} from "@mui/material";
+import {Breadcrumbs, Link, Theme} from "@mui/material";
 import React from "react";
 import {AppThemeProvider} from "../AppThemeProvider";
 import {appBreadcrumbTheme} from "./appBreadcrumbTheme";
 
-interface AppBreadcrumbsProps {
-    id: string;
+interface AppBreadcrumbsProps<T> {
+    arg: T;
     href: string;
     label: string;
 }
 
-interface AppBreadcrumbsComponentProps {
-    propsList: AppBreadcrumbsProps[];
-    onItemClick?: (id: string) => void;
+interface AppBreadcrumbsComponentProps<T> {
+    propsList: AppBreadcrumbsProps<T>[];
+    onItemClick?: (arg: T) => void;
+    theme?: Theme;
 }
 
-const AppBreadcrumbs = ({propsList, onItemClick}: AppBreadcrumbsComponentProps) => {
+const AppBreadcrumbs = <T, >(props: AppBreadcrumbsComponentProps<T>) => {
 
-    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>, arg: T) => {
         event.preventDefault();
-        if (onItemClick) {
-            onItemClick(id);
+        if (props.onItemClick) {
+            props.onItemClick(arg);
         }
     };
 
     return (
-        <AppThemeProvider theme={appBreadcrumbTheme}>
+        <AppThemeProvider theme={props.theme || appBreadcrumbTheme}>
             <Breadcrumbs>
-                {propsList.map((item) => (
+                {props.propsList.map((item, index) => (
                     <Link
-                        key={item.id}
+                        key={"item_" + index}
                         href={item.href}
-                        onClick={(e) => handleClick(e, item.id)}
+                        onClick={(e) => handleClick(e, item.arg)}
                         sx={{cursor: 'pointer'}}
                     >
                         {item.label}
