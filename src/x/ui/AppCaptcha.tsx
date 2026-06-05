@@ -6,6 +6,26 @@ interface AppCaptchaProps {
     useLazyCaptchaQuery: () => any;
 }
 
+const MyContainer = styled(Box)(() => ({
+    position: "relative",
+    height: "56px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+}));
+
+const MyCheckbox = styled(Checkbox)(() => ({
+    position: "absolute",
+    color: "rgba(0,0,0,0) !important",
+    zIndex: 0
+}));
+const MyLoadingButton = styled(Button)(() => ({
+    position: "absolute",
+    zIndex: 1,
+    height: "100%",
+    padding: 0
+}));
+
 const AppCaptcha = ({useLazyCaptchaQuery}: AppCaptchaProps) => {
     const [getCaptcha, {data, isFetching}] = useLazyCaptchaQuery();
 
@@ -35,27 +55,6 @@ const AppCaptcha = ({useLazyCaptchaQuery}: AppCaptchaProps) => {
             </Grid>
         );
     }
-
-    const MyContainer = styled(Box)(() => ({
-        position: "relative",
-        height: "56px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    }));
-
-    const MyCheckbox = styled(Checkbox)(() => ({
-        position: "absolute",
-        color: "rgba(0,0,0,0) !important",
-        zIndex: 0
-    }));
-    const MyLoadingButton = styled(Button)(() => ({
-        position: "absolute",
-        zIndex: 1,
-        height: "100%",
-        padding: 0
-    }));
-
 
     return (
         <Grid container spacing={0}>
